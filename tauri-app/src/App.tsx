@@ -1,15 +1,34 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
-import "./App.css";
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import { invoke } from '@tauri-apps/api/core';
+import './App.css';
+import { Command } from '@tauri-apps/plugin-shell';
+
+const command = Command.sidecar('bin/node_v20_17_0', ['-v']);
+// const sidecar_command = Command.sidecar('bin/node_v20_17_0', ['-v']);
+
+// Reference video: https://www.youtube.com/watch?v=dMJKXUFxD0Y
+// Using tauri v1, but still can be helpful
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  const [greetMsg, setGreetMsg] = useState('');
+  const [name, setName] = useState('');
 
   async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
+    // // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+    // setGreetMsg(await invoke('greet', { name }));
+
+    const result = await invoke('greet', { name });
+
+    try {
+      const output = await command.execute();
+      console.log('output');
+      console.log(output.stdout);
+      setGreetMsg(result + ' ' + output.stdout);
+    } catch (e) {
+      console.log('e');
+      console.log(e);
+    }
   }
 
   return (
