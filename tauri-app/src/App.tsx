@@ -27,16 +27,16 @@ websiteCommand.stdout.on('data', (a, b) => {
   console.log(a, b);
 });
 
-websiteCommand
-  .execute()
-  .then((a) => {
-    console.log('a');
-    console.log(a);
-  })
-  .catch((e) => {
-    console.log('e');
-    console.log(e);
-  });
+// websiteCommand
+//   .execute()
+//   .then((a) => {
+//     console.log('a');
+//     console.log(a);
+//   })
+//   .catch((e) => {
+//     console.log('e');
+//     console.log(e);
+//   });
 
 // Reference video: https://www.youtube.com/watch?v=dMJKXUFxD0Y
 // Using tauri v1, but still can be helpful
@@ -50,6 +50,7 @@ function App() {
     // setGreetMsg(await invoke('greet', { name }));
 
     const result = await invoke('greet', { name });
+    setGreetMsg(result);
 
     // try {
     //   const output = await nodeVerCommand.execute();
