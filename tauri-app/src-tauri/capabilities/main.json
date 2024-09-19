@@ -10,7 +10,7 @@
       "identifier": "shell:allow-execute",
       "allow": [
         {
-          "args": ["-v"],
+          "args": true,
           "cmd": "",
           "name": "bin/node_v20_17_0",
           "sidecar": true

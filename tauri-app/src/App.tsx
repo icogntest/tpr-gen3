@@ -3,9 +3,40 @@ import reactLogo from './assets/react.svg';
 import { invoke } from '@tauri-apps/api/core';
 import './App.css';
 import { Command } from '@tauri-apps/plugin-shell';
+import { resolveResource, resolve } from '@tauri-apps/api/path';
 
-const command = Command.sidecar('bin/node_v20_17_0', ['-v']);
-// const sidecar_command = Command.sidecar('bin/node_v20_17_0', ['-v']);
+// const nodeVerCommand = Command.sidecar('bin/node_v20_17_0', ['-v']);
+
+const resourcePath = await resolveResource('resources/website/server.js');
+console.log('resourcePath');
+console.log(resourcePath);
+
+const websiteDir = await resolve(resourcePath, '..');
+console.log('websiteDir');
+console.log(websiteDir);
+
+const websiteCommand = Command.sidecar('bin/node_v20_17_0', ['server.js'], {
+  cwd: websiteDir,
+});
+
+websiteCommand.stderr.on('data', (a, b) => {
+  console.log(a, b);
+});
+
+websiteCommand.stdout.on('data', (a, b) => {
+  console.log(a, b);
+});
+
+websiteCommand
+  .execute()
+  .then((a) => {
+    console.log('a');
+    console.log(a);
+  })
+  .catch((e) => {
+    console.log('e');
+    console.log(e);
+  });
 
 // Reference video: https://www.youtube.com/watch?v=dMJKXUFxD0Y
 // Using tauri v1, but still can be helpful
@@ -20,15 +51,15 @@ function App() {
 
     const result = await invoke('greet', { name });
 
-    try {
-      const output = await command.execute();
-      console.log('output');
-      console.log(output.stdout);
-      setGreetMsg(result + ' ' + output.stdout);
-    } catch (e) {
-      console.log('e');
-      console.log(e);
-    }
+    // try {
+    //   const output = await nodeVerCommand.execute();
+    //   console.log('output');
+    //   console.log(output.stdout);
+    //   setGreetMsg(result + ' ' + output.stdout);
+    // } catch (e) {
+    //   console.log('e');
+    //   console.log(e);
+    // }
   }
 
   return (
