@@ -1,10 +1,8 @@
 pub mod api_manager;
 
 use api_manager::APIManager;
-use std::sync::OnceLock;
-use std::{process::Command as StdCommand, sync::Mutex};
+use std::sync::{Mutex, OnceLock};
 use tauri::{AppHandle, Manager, State, Window, WindowEvent};
-use tauri_plugin_shell::{process::Command, ShellExt};
 
 struct APIManagerState {
     api_manager_mutex: Mutex<APIManager>,

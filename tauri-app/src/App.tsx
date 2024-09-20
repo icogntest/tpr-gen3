@@ -2,30 +2,30 @@ import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import { invoke } from '@tauri-apps/api/core';
 import './App.css';
-import { Command } from '@tauri-apps/plugin-shell';
-import { resolveResource, resolve } from '@tauri-apps/api/path';
+// import { Command } from '@tauri-apps/plugin-shell';
+// import { resolveResource, resolve } from '@tauri-apps/api/path';
 
 // const nodeVerCommand = Command.sidecar('bin/node_v20_17_0', ['-v']);
 
-const resourcePath = await resolveResource('resources/website/server.js');
-console.log('resourcePath');
-console.log(resourcePath);
+// const resourcePath = await resolveResource('resources/website/server.js');
+// console.log('resourcePath');
+// console.log(resourcePath);
 
-const websiteDir = await resolve(resourcePath, '..');
-console.log('websiteDir');
-console.log(websiteDir);
+// const websiteDir = await resolve(resourcePath, '..');
+// console.log('websiteDir');
+// console.log(websiteDir);
 
-const websiteCommand = Command.sidecar('bin/node_v20_17_0', ['server.js'], {
-  cwd: websiteDir,
-});
+// const websiteCommand = Command.sidecar('bin/node_v20_17_0', ['server.js'], {
+//   cwd: websiteDir,
+// });
 
-websiteCommand.stderr.on('data', (a, b) => {
-  console.log(a, b);
-});
+// websiteCommand.stderr.on('data', (a, b) => {
+//   console.log(a, b);
+// });
 
-websiteCommand.stdout.on('data', (a, b) => {
-  console.log(a, b);
-});
+// websiteCommand.stdout.on('data', (a, b) => {
+//   console.log(a, b);
+// });
 
 // websiteCommand
 //   .execute()
@@ -47,10 +47,10 @@ function App() {
 
   async function greet() {
     // // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    // setGreetMsg(await invoke('greet', { name }));
+    setGreetMsg(await invoke('greet', { name }));
 
-    const result = await invoke('greet', { name });
-    setGreetMsg(result);
+    // const result = await invoke('greet', { name });
+    // setGreetMsg(result);
 
     // try {
     //   const output = await nodeVerCommand.execute();
