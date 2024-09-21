@@ -31,6 +31,17 @@ jobs:
           cache: 'yarn'
 
       - run: yarn --immutable
+
+      - run: |
+          gh variable list
+
+      # - uses: ./scripts/ci/set-github-variable.js
+      #   with:
+      #     name: 'SAMPLE_VAR'
+      #     value: 'Hello World'
+      #     repository: mmoyaferrer/set-github-variable
+      #     token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
       - run: yarn --cwd website run build
 
       - name: Upload Artifact
