@@ -29,5 +29,5 @@ inputs:
     description: 'Encoding of signature'
     required: false
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: node20
+  main: 'sign-files.js'
