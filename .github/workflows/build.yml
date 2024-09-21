@@ -67,19 +67,6 @@ jobs:
       - run: echo ${{ steps.package-version.outputs.current-version }}
         name: Echo root package.json version
 
-      # - uses: matt-usurp/validate-semver@v2
-      #   id: semver
-      #   with:
-      #     version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}.${{ vars.BUILD_NUMBER }}
-
-      # - run: |
-      #     echo "${{ steps.semver.outputs.version }}"
-      #     echo "${{ steps.semver.outputs.major }}"
-      #     echo "${{ steps.semver.outputs.minor }}"
-      #     echo "${{ steps.semver.outputs.patch }}"
-      #     echo "${{ steps.semver.outputs.prerelease }}"
-      #     echo "${{ steps.semver.outputs.build }}"
-
   build_website:
     needs: [increment_validate_version]
     strategy:
@@ -104,51 +91,11 @@ jobs:
         name: Get environment name as var
         id: context
 
-      # - uses: kaisugi/action-regex-match@v1.0.1
-      #   name: Check environment name is valid
-      #   id: regex-match
-      #   with:
-      #     text: ${{ steps.context.outputs.environment }}
-      #     regex: '^[a-z0-9]+$'
-
-      # - if: ${{ steps.regex-match.outputs.match == '' }}
-      #   name: Exit if invalid environment name
-      #   run: exit 1
-
       - run: yarn --immutable
-
-      # # Increment the build number ASAP (once we have a valid environment and yarn has run)
-      # # Important to use `steps.increment.outputs.value` and not vars.BUILD_NUMBER after this.
-      # # vars.BUILD_NUMBER does not reflect the changed value.
-      # - uses: ./scripts/workflows/increment
-      #   name: Increment build number
-      #   id: increment
-      #   with:
-      #     name: 'BUILD_NUMBER'
-      #     token: ${{ secrets.GH_PAT }}
-      #     environment: ${{ steps.context.outputs.environment }}
-
-      # - run: |
-      #     echo "Current Environment: ${{ steps.context.outputs.environment }}"
-      #     echo "Job Logs: ${{ steps.context.outputs.job_log_url }}"
 
       - uses: martinbeentjes/npm-get-version-action@v1.3.1
         id: package-version
         name: Get root package.json version
-
-      # - uses: kaisugi/action-regex-match@v1.0.1
-      #   name: Check package.json version is valid
-      #   id: regex-match-version
-      #   with:
-      #     text: ${{ steps.package-version.outputs.current-version }}
-      #     regex: '^\d+\.\d+\.\d+$'
-
-      # - if: ${{ steps.regex-match-version.outputs.match == '' }}
-      #   name: Exit if invalid package.json version
-      #   run: exit 1
-
-      # - run: echo ${{ steps.package-version.outputs.current-version }}
-      #   name: Echo root package.json version
 
       - uses: matt-usurp/validate-semver@v2
         id: semver
@@ -183,3 +130,28 @@ jobs:
           name: asdf-${{ matrix.os }}
           include-hidden-files: true # so includes .next folder
           path: website/.next/standalone
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: asdf-${{ matrix.os }}
+          path: downloadedArtifacts
+
+      - uses: 'FKLC/sign-files-action@v1.0.0'
+        with:
+          privateKey: ${{ secrets.PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          algorithm: 'RSA-SHA256'
+          extension: '.sig'
+          outputFolder: 'downloadedArtifacts'
+          files: downloadedArtifacts/asdf-${{ matrix.os }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: asdf-${{ matrix.os }}.sig
+          include-hidden-files: true # so includes .next folder
+          path: downloadedArtifacts/asdf-${{ matrix.os }}.sig
+
+      # At the end, set/create var in environment for the "1.2.3" of this build.
+      # Probably in another job since this one is a matrix.
