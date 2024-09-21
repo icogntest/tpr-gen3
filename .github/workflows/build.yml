@@ -47,7 +47,9 @@ jobs:
         name: Exit if invalid environment name
         run: exit 1
 
-      # Increment the build number ASAP (once we have a valid environment)
+      - run: yarn --immutable
+
+      # Increment the build number ASAP (once we have a valid environment and yarn has run)
       - uses: ./scripts/workflows/increment
         name: Increment build number
         id: increment
@@ -78,8 +80,6 @@ jobs:
           echo "v${{ steps.semver.outputs.patch }}"
           echo "v${{ steps.semver.outputs.prerelease }}"
           echo "v${{ steps.semver.outputs.build }}"
-
-      - run: yarn --immutable
 
       - run: |
           gh variable list
