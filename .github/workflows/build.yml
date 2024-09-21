@@ -41,7 +41,8 @@ jobs:
 
       - run: echo ${{ vars.TESTREPOVAR }}
 
-      - uses: action-pack/increment@v2
+      # - uses: action-pack/increment@v2
+      - uses: ./scripts/ci/increment.js
         id: increment
         with:
           name: 'TESTREPOVAR'
