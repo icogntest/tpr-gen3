@@ -4,6 +4,10 @@ From "tauri-app" dir, run `yarn tauri dev` for dev mode of the tauri app.
 For tauri-build:
 From "tauri-app" dir, run `yarn tauri build`.
 
+For github actions:
+
+- Go to Settings > Actions > General > Workflow permissions, and change to "Read and write permissions".
+
 TODO (big items):
 
 Ref for auto-update (v1): https://www.youtube.com/watch?v=ZXjlZBisYPQ
