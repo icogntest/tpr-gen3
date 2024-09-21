@@ -7,7 +7,7 @@ jobs:
       fail-fast: true
       matrix:
         # os: [windows-latest]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
         # os: [ macos-latest, ubuntu-latest, windows-latest ]
 
     runs-on: ${{ matrix.os }}
@@ -32,5 +32,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: asdf
+          name: asdf-${{ matrix.os }}
           path: website/.next/standalone
