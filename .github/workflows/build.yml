@@ -135,7 +135,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: asdf-${{ matrix.os }}
-          path: downloadedArtifacts
+          # path: downloadedArtifacts
 
       # - uses: 'FKLC/sign-files-action@v1.0.0'
       - uses: ./scripts/workflows/sign-files
@@ -145,7 +145,8 @@ jobs:
           algorithm: 'RSA-SHA256'
           extension: '.sig'
           # outputFolder: 'downloadedArtifacts'
-          files: downloadedArtifacts/asdf-${{ matrix.os }}
+          # files: downloadedArtifacts/asdf-${{ matrix.os }}
+          files: asdf-${{ matrix.os }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
