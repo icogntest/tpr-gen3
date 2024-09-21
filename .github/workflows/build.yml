@@ -16,7 +16,7 @@ jobs:
         # os: [ macos-latest, ubuntu-latest, windows-latest ]
 
     runs-on: ${{ matrix.os }}
-    environment: dev
+    environment: ${{ vars.DEV_BRANCH_NAME }}
 
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
       - uses: qoomon/actions--context@v2
         id: context
 
-      - if: ${{ steps.context.outputs.environment == 'dev' }}
+      - if: ${{ steps.context.outputs.environment == '' }}
         name: Ensure environment defined
         run: exit 1
 
