@@ -124,6 +124,14 @@ jobs:
 
       - run: yarn --cwd website run build
 
+      - uses: vimtor/action-zip@v1.2
+        with:
+          files: website/.next/standalone
+          dest: downloadedArtifacts/asdf-${{ matrix.os }}.zip
+
+      - name: Display structure of downloaded files
+        run: ls -R downloadedArtifacts
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
