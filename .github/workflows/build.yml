@@ -40,6 +40,12 @@ jobs:
 
       - run: echo ${{ vars.TESTREPOVAR }}
 
+      - uses: action-pack/increment@v2
+        id: increment
+        with:
+          name: 'TESTREPOVAR'
+          token: ${{ secrets.GH_PAT }}
+
       # - uses: ./scripts/ci/set-github-variable.js
       #   with:
       #     name: 'SAMPLE_VAR'
