@@ -9,58 +9,63 @@ async function main() {
 
   // glob testing
 
-  const globber = await glob.create('dog.txt', { matchDirectories: false });
+  const fileName = 'asdf-ubuntu-latest.zip';
+
+  const globber = await glob.create(fileName, { matchDirectories: false });
   const files = await globber.glob();
   console.log('files');
   console.log(files);
 
   // Key stuff
 
-  const { privateKey, publicKey } = generateKeyPairSync('rsa', {
-    modulusLength: 4096,
-    namedCurve: 'sect239k1',
-    publicKeyEncoding: {
-      type: 'spki',
-      format: 'pem',
-    },
-    privateKeyEncoding: {
-      type: 'pkcs8',
-      format: 'pem',
-      cipher: 'aes-256-cbc',
-      passphrase: 'top secret',
-    },
-  });
+  // const { privateKey, publicKey } = generateKeyPairSync('rsa', {
+  //   modulusLength: 4096,
+  //   namedCurve: 'sect239k1',
+  //   publicKeyEncoding: {
+  //     type: 'spki',
+  //     format: 'pem',
+  //   },
+  //   privateKeyEncoding: {
+  //     type: 'pkcs8',
+  //     format: 'pem',
+  //     cipher: 'aes-256-cbc',
+  //     passphrase: 'top secret',
+  //   },
+  // });
 
-  const sign = createSign('RSA-SHA256');
+  // const sign = createSign('RSA-SHA256');
 
-  const inpFilePath = './dog.txt';
+  // const inpFilePath = fileName;
 
-  const inpFile = fs.createReadStream(inpFilePath);
+  // const inpFile = fs.createReadStream(inpFilePath);
 
-  await new Promise((resolve) => inpFile.pipe(sign).once('finish', resolve));
+  // await new Promise((resolve) => inpFile.pipe(sign).once('finish', resolve));
 
-  const outputFolder = '.';
-  const extension = '.sig';
-  const outFilePath =
-    path.join(outputFolder, path.basename(inpFilePath)) + extension;
+  // const outputFolder = '.';
+  // const extension = '.sig';
+  // const outFilePath =
+  //   path.join(outputFolder, path.basename(inpFilePath)) + extension;
 
-  await fs.promises.writeFile(
-    outFilePath,
-    sign.sign({
-      key: privateKey,
-      passphrase: 'top secret',
-    }),
-    'utf8'
-  );
+  // await fs.promises.writeFile(
+  //   outFilePath,
+  //   sign.sign({
+  //     key: privateKey,
+  //     passphrase: 'top secret',
+  //   }),
+  //   'utf8'
+  // );
 
-  // const pem = fs.readFileSync('PUBLIC_KEY_FILE_PATH_GOES_HERE');
-  // const pubKey = pem.toString('ascii');
-  let pubKey = publicKey;
+  // // const pem = fs.readFileSync('PUBLIC_KEY_FILE_PATH_GOES_HERE');
+  // // const pubKey = pem.toString('ascii');
+  // let pubKey = publicKey;
+  // // pubKey = pubKey.substring(0, 99) + 'a' + pubKey.substring(100);
+  // // const verifier = crypto.createVerify('RSA-SHA256');
+
+  const dataToVerify = fs.readFileSync(fileName);
+  const signatureData = fs.readFileSync(fileName + '.sig');
+
+  let pubKey = fs.readFileSync('publicKey.txt').toString();
   // pubKey = pubKey.substring(0, 99) + 'a' + pubKey.substring(100);
-  // const verifier = crypto.createVerify('RSA-SHA256');
-
-  const dataToVerify = fs.readFileSync('./dog.txt');
-  const signatureData = fs.readFileSync('./dog.txt.sig');
 
   const aaa = await new Promise((resolve, reject) => {
     verify('RSA-SHA256', dataToVerify, pubKey, signatureData, (err, result) => {
