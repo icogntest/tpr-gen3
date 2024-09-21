@@ -32,6 +32,13 @@ jobs:
           node-version: '20.17.0'
           cache: 'yarn'
 
+      - uses: qoomon/actions--context@v2
+        id: context
+
+      - run: |
+          echo "Current Environment: ${{ steps.context.outputs.environment }}"
+          echo "Job Logs: ${{ steps.context.outputs.job_log_url }}"
+
       - run: yarn --immutable
 
       - run: |
@@ -40,7 +47,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - run: echo ${{ vars.TESTREPOVAR }}
-      - run: echo ${{ vars.ENVIRONMENT_STAGE }}
+      - run: echo ${{ vars.ENVIRONMENT_NAME }}
 
       # - uses: action-pack/increment@v2
       - uses: ./scripts/workflows/increment
