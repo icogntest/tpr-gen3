@@ -67,6 +67,7 @@ jobs:
         name: Get root package.json version
 
       - run: echo ${{ steps.package-version.outputs.current-version }}
+        name: Echo root package.json version
 
       - uses: matt-usurp/validate-semver@v2
         id: semver
