@@ -2,9 +2,19 @@ import { createSign, generateKeyPairSync, verify } from 'node:crypto';
 import path from 'node:path';
 import fs from 'node:fs';
 import process from 'node:process';
+import glob from '@actions/glob';
 
 async function main() {
   process.chdir('./scripts');
+
+  // glob testing
+
+  const globber = await glob.create('dog.txt', { matchDirectories: false });
+  const files = await globber.glob();
+  console.log('files');
+  console.log(files);
+
+  // Key stuff
 
   const { privateKey, publicKey } = generateKeyPairSync('rsa', {
     modulusLength: 4096,

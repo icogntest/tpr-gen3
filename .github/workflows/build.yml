@@ -135,7 +135,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: asdf-${{ matrix.os }}
-          # path: downloadedArtifacts
+          path: downloadedArtifacts
+
+      - name: Display structure of downloaded files
+        run: ls -R downloadedArtifacts
 
       # - uses: 'FKLC/sign-files-action@v1.0.0'
       - uses: ./scripts/workflows/sign-files
