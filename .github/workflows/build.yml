@@ -35,7 +35,7 @@ jobs:
       - uses: qoomon/actions--context@v2
         id: context
 
-      - uses: actions-ecosystem/action-regex-match@v2
+      - uses: kaisugi/action-regex-match@v1.0.1
         name: Check environment name is valid
         id: regex-match
         with:
