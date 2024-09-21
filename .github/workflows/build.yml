@@ -47,7 +47,8 @@ jobs:
       - uses: matt-usurp/validate-semver@v2
         id: semver
         with:
-          version: ${{ steps.package-version.outputs.current-version }}-
+          # version: ${{ steps.package-version.outputs.current-version }}-
+          version: invalidsemver
           # version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}
 
       - run: |
