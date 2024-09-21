@@ -9,7 +9,7 @@ const amount = input('amount', '1');
 const push_to_org = input('org', '') !== '';
 const owner = input('owner', github.context.payload.repository.owner.login);
 const repository = input('repository', github.context.payload.repository.name);
-const environment = input('repository', '');
+const environment = input('environment', '');
 
 function path_() {
   if (push_to_org) {

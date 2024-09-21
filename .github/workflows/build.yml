@@ -47,7 +47,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - run: echo ${{ vars.TESTREPOVAR }}
-      - run: echo ${{ vars.ENVIRONMENT_NAME }}
+      - run: echo ${{ steps.context.outputs.environment }}
 
       # - uses: action-pack/increment@v2
       - uses: ./scripts/workflows/increment
