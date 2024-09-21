@@ -35,8 +35,15 @@ jobs:
       - uses: qoomon/actions--context@v2
         id: context
 
-      - if: ${{ steps.context.outputs.environment == '' }}
-        name: Ensure environment defined
+      - uses: actions-ecosystem/action-regex-match@v2
+        name: Check environment name is valid
+        id: regex-match
+        with:
+          text: ${{ steps.context.outputs.environment }}
+          regex: '^[a-z0-9]+$'
+
+      - if: ${{ steps.regex-match.outputs.match != '' }}
+        name: Exit if invalid environment name
         run: exit 1
 
       # - run: |
