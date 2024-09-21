@@ -35,9 +35,9 @@ jobs:
       - uses: qoomon/actions--context@v2
         id: context
 
-      - run: |
-          echo "Current Environment: ${{ steps.context.outputs.environment }}"
-          echo "Job Logs: ${{ steps.context.outputs.job_log_url }}"
+      # - run: |
+      #     echo "Current Environment: ${{ steps.context.outputs.environment }}"
+      #     echo "Job Logs: ${{ steps.context.outputs.job_log_url }}"
 
       - run: yarn --immutable
 
@@ -55,6 +55,7 @@ jobs:
         with:
           name: 'TESTREPOVAR'
           token: ${{ secrets.GH_PAT }}
+          environment: ${{ steps.context.outputs.environment }}
 
       # - uses: ./scripts/ci/set-github-variable.js
       #   with:

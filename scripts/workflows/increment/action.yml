@@ -32,6 +32,11 @@ inputs:
     default: false
     required: false
 
+  environment:
+    description: Environment of job
+    default: ''
+    required: false
+
   token:
     description: Repository access token
     required: true

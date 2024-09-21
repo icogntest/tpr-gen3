@@ -9,6 +9,7 @@ const amount = input('amount', '1');
 const push_to_org = input('org', '') !== '';
 const owner = input('owner', github.context.payload.repository.owner.login);
 const repository = input('repository', github.context.payload.repository.name);
+const environment = input('repository', '');
 
 function path_() {
   if (push_to_org) {
@@ -55,7 +56,11 @@ function increment(string, amount) {
 
 const createVariable = (data) => {
   let url = 'POST ' + path_();
-  url += '/actions/variables';
+  if (environment) {
+    url += '/environments/' + environment + '/variables/' + varname;
+  } else {
+    url += '/actions/variables/' + varname;
+  }
 
   return octokit.request(url, {
     owner: owner,
@@ -67,7 +72,11 @@ const createVariable = (data) => {
 
 const setVariable = (data) => {
   let url = 'PATCH ' + path_();
-  url += '/actions/variables/' + name;
+  if (environment) {
+    url += '/environments/' + environment + '/variables/' + varname;
+  } else {
+    url += '/actions/variables/' + varname;
+  }
 
   return octokit.request(url, {
     owner: owner,
@@ -79,7 +88,11 @@ const setVariable = (data) => {
 
 const getVariable = (varname) => {
   let url = 'GET ' + path_();
-  url += '/actions/variables/' + varname;
+  if (environment) {
+    url += '/environments/' + environment + '/variables/' + varname;
+  } else {
+    url += '/actions/variables/' + varname;
+  }
 
   return octokit.request(url, {
     owner: owner,
