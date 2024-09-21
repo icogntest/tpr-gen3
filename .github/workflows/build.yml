@@ -143,7 +143,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           algorithm: 'RSA-SHA256'
           extension: '.sig'
-          outputFolder: 'downloadedArtifacts'
+          # outputFolder: 'downloadedArtifacts'
           files: downloadedArtifacts/asdf-${{ matrix.os }}
 
       - name: Upload Artifact
@@ -151,7 +151,8 @@ jobs:
         with:
           name: asdf-${{ matrix.os }}.sig
           include-hidden-files: true # so includes .next folder
-          path: downloadedArtifacts/asdf-${{ matrix.os }}.sig
+          # path: downloadedArtifacts/asdf-${{ matrix.os }}.sig
+          path: asdf-${{ matrix.os }}.sig
 
       # At the end, set/create var in environment for the "1.2.3" of this build.
       # Probably in another job since this one is a matrix.
