@@ -80,7 +80,7 @@ jobs:
       - uses: matt-usurp/validate-semver@v2
         id: semver
         with:
-          version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}.${{ vars.BUILD_NUMBER }}
+          version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}.${{ steps.increment.outputs.value }}
 
       - run: |
           echo "${{ steps.semver.outputs.version }}"
