@@ -37,4 +37,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: asdf-${{ matrix.os }}
+          include-hidden-files: true # so includes .next folder
           path: website/.next/standalone
