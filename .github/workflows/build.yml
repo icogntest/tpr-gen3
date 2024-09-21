@@ -42,7 +42,7 @@ jobs:
           text: ${{ steps.context.outputs.environment }}
           regex: '^[a-z0-9]+$'
 
-      - if: ${{ steps.regex-match.outputs.match != '' }}
+      - if: ${{ steps.regex-match.outputs.match == '' }}
         name: Exit if invalid environment name
         run: exit 1
 
