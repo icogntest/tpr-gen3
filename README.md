@@ -27,3 +27,18 @@ asdf
 - People would be allowed to publish the website code as something to switch to.
 - No reason to give people the ability to change the main program (swapping between branches, etc.)
 - We also then don't need to share the private key info at all
+
+Next steps:
+
+- Store what the package.json version was last time we ran (1.2.0 for example).
+- We don't care about whether or not it was "dev", "isaac", etc.; only the number comparison matters
+- The name for the branch can be set with a variable in the environment.
+  It is called "dev" for all forks, but they can set the exact name in a var.
+- This name is used to create the version like "1.2.0-dev.8".
+- When we start, if the previous semver exists and is LESS than the current semver one, then reset to 0.
+  It will get changed to 1 and never 0, but that is fine.
+- We also want to write the version to an artifact "config.json" which will be read by our stable workflow.
+  This workflow will update a json file in a branch which will be used by API endpoints to get info about branches.
+  For example, site URL, latest version, artifact URLs, possibly store the artifact signatures here as well.
+  This would allow us to validate the zip file that we download to make sure what we end up downloading to their
+  site matches what we expect.

@@ -39,6 +39,11 @@ jobs:
       #     echo "Current Environment: ${{ steps.context.outputs.environment }}"
       #     echo "Job Logs: ${{ steps.context.outputs.job_log_url }}"
 
+      - uses: martinbeentjes/npm-get-version-action@v1.3.1
+        id: package-version
+
+      - run: echo ${{ steps.package-version.outputs.current-version }}
+
       - run: yarn --immutable
 
       - run: |
