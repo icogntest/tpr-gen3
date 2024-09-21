@@ -36,6 +36,7 @@ jobs:
         id: context
 
       - if: ${{ steps.context.outputs.environment == 'dev' }}
+        name: Ensure environment defined
         run: exit 1
 
       # - run: |
