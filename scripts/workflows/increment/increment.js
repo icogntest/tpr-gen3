@@ -57,9 +57,9 @@ function increment(string, amount) {
 const createVariable = (data) => {
   let url = 'POST ' + path_();
   if (environment) {
-    url += '/environments/' + environment + '/variables/' + varname;
+    url += '/environments/' + environment + '/variables';
   } else {
-    url += '/actions/variables/' + varname;
+    url += '/actions/variables';
   }
 
   return octokit.request(url, {
@@ -73,9 +73,9 @@ const createVariable = (data) => {
 const setVariable = (data) => {
   let url = 'PATCH ' + path_();
   if (environment) {
-    url += '/environments/' + environment + '/variables/' + varname;
+    url += '/environments/' + environment + '/variables/' + name;
   } else {
-    url += '/actions/variables/' + varname;
+    url += '/actions/variables/' + name;
   }
 
   return octokit.request(url, {
