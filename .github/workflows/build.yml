@@ -44,6 +44,19 @@ jobs:
 
       - run: echo ${{ steps.package-version.outputs.current-version }}
 
+      - uses: matt-usurp/validate-semver@v2
+        id: semver
+        with:
+          version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}
+
+      - run: |
+          echo "v${{ steps.semver.outputs.version }}"
+          echo "v${{ steps.semver.outputs.major }}"
+          echo "v${{ steps.semver.outputs.minor }}"
+          echo "v${{ steps.semver.outputs.patch }}"
+          echo "v${{ steps.semver.outputs.prerelease }}"
+          echo "v${{ steps.semver.outputs.build }}"
+
       - run: yarn --immutable
 
       - run: |
