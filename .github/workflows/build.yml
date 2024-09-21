@@ -6,16 +6,8 @@ on:
       - main
 
 jobs:
-  build_website:
-    # permissions: write-all
-    strategy:
-      fail-fast: true
-      matrix:
-        # os: [windows-latest]
-        os: [ubuntu-latest]
-        # os: [ macos-latest, ubuntu-latest, windows-latest ]
-
-    runs-on: ${{ matrix.os }}
+  increment_build_number:
+    runs-on: [ubuntu-latest]
     environment: ${{ vars.DEV_BRANCH_NAME }}
 
     steps:
@@ -47,6 +39,8 @@ jobs:
       - run: yarn --immutable
 
       # Increment the build number ASAP (once we have a valid environment and yarn has run)
+      # Important to use `steps.increment.outputs.value` and not vars.BUILD_NUMBER after this.
+      # vars.BUILD_NUMBER does not reflect the changed value.
       - uses: ./scripts/workflows/increment
         name: Increment build number
         id: increment
@@ -54,6 +48,54 @@ jobs:
           name: 'BUILD_NUMBER'
           token: ${{ secrets.GH_PAT }}
           environment: ${{ steps.context.outputs.environment }}
+
+  build_website:
+    needs: [increment_build_number]
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    environment: ${{ vars.DEV_BRANCH_NAME }}
+
+    steps:
+      - run: echo ${{ github.sha }}
+        name: Echo github.sha
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.17.0'
+          cache: 'yarn'
+
+      - uses: qoomon/actions--context@v2
+        name: Get environment name as var
+        id: context
+
+      - uses: kaisugi/action-regex-match@v1.0.1
+        name: Check environment name is valid
+        id: regex-match
+        with:
+          text: ${{ steps.context.outputs.environment }}
+          regex: '^[a-z0-9]+$'
+
+      - if: ${{ steps.regex-match.outputs.match == '' }}
+        name: Exit if invalid environment name
+        run: exit 1
+
+      - run: yarn --immutable
+
+      # # Increment the build number ASAP (once we have a valid environment and yarn has run)
+      # # Important to use `steps.increment.outputs.value` and not vars.BUILD_NUMBER after this.
+      # # vars.BUILD_NUMBER does not reflect the changed value.
+      # - uses: ./scripts/workflows/increment
+      #   name: Increment build number
+      #   id: increment
+      #   with:
+      #     name: 'BUILD_NUMBER'
+      #     token: ${{ secrets.GH_PAT }}
+      #     environment: ${{ steps.context.outputs.environment }}
 
       # - run: |
       #     echo "Current Environment: ${{ steps.context.outputs.environment }}"
@@ -80,7 +122,7 @@ jobs:
       - uses: matt-usurp/validate-semver@v2
         id: semver
         with:
-          version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}.${{ steps.increment.outputs.value }}
+          version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}.${{ vars.BUILD_NUMBER }}
 
       - run: |
           echo "${{ steps.semver.outputs.version }}"
@@ -94,9 +136,6 @@ jobs:
           gh variable list
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-
-      - run: echo ${{ vars.BUILD_NUMBER }}
-      - run: echo ${{ steps.context.outputs.environment }}
 
       # - uses: ./scripts/ci/set-github-variable.js
       #   with:
