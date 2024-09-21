@@ -47,6 +47,15 @@ jobs:
         name: Exit if invalid environment name
         run: exit 1
 
+      # Increment the build number ASAP (once we have a valid environment)
+      - uses: ./scripts/workflows/increment
+        name: Increment build number
+        id: increment
+        with:
+          name: 'BUILD_NUMBER'
+          token: ${{ secrets.GH_PAT }}
+          environment: ${{ steps.context.outputs.environment }}
+
       # - run: |
       #     echo "Current Environment: ${{ steps.context.outputs.environment }}"
       #     echo "Job Logs: ${{ steps.context.outputs.job_log_url }}"
@@ -79,14 +88,6 @@ jobs:
 
       - run: echo ${{ vars.BUILD_NUMBER }}
       - run: echo ${{ steps.context.outputs.environment }}
-
-      # - uses: action-pack/increment@v2
-      - uses: ./scripts/workflows/increment
-        id: increment
-        with:
-          name: 'BUILD_NUMBER'
-          token: ${{ secrets.GH_PAT }}
-          environment: ${{ steps.context.outputs.environment }}
 
       # - uses: ./scripts/ci/set-github-variable.js
       #   with:
