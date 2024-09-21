@@ -5,6 +5,8 @@ on:
     branches:
       - main
 
+env:
+
 jobs:
   build_website:
     # permissions: write-all
@@ -16,6 +18,7 @@ jobs:
         # os: [ macos-latest, ubuntu-latest, windows-latest ]
 
     runs-on: ${{ matrix.os }}
+    environment: dev
 
     steps:
       - uses: actions/checkout@v4
