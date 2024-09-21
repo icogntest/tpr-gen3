@@ -33,6 +33,7 @@ jobs:
           cache: 'yarn'
 
       - uses: qoomon/actions--context@v2
+        name: Get environment name as var
         id: context
 
       - uses: kaisugi/action-regex-match@v1.0.1
@@ -52,13 +53,14 @@ jobs:
 
       - uses: martinbeentjes/npm-get-version-action@v1.3.1
         id: package-version
+        name: Get root package.json version
 
       - run: echo ${{ steps.package-version.outputs.current-version }}
 
       - uses: matt-usurp/validate-semver@v2
         id: semver
         with:
-          version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}.${{ vars.TESTREPOVAR }}
+          version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}.${{ vars.BUILD_NUMBER }}
 
       - run: |
           echo "v${{ steps.semver.outputs.version }}"
@@ -75,14 +77,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
 
-      - run: echo ${{ vars.TESTREPOVAR }}
+      - run: echo ${{ vars.BUILD_NUMBER }}
       - run: echo ${{ steps.context.outputs.environment }}
 
       # - uses: action-pack/increment@v2
       - uses: ./scripts/workflows/increment
         id: increment
         with:
-          name: 'TESTREPOVAR'
+          name: 'BUILD_NUMBER'
           token: ${{ secrets.GH_PAT }}
           environment: ${{ steps.context.outputs.environment }}
 
