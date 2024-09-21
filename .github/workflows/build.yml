@@ -146,7 +146,7 @@ jobs:
           algorithm: 'RSA-SHA256'
           extension: '.sig'
           outputFolder: 'downloadedArtifacts'
-          files: downloadedArtifacts/asdf-${{ matrix.os }}
+          files: downloadedArtifacts/asdf-${{ matrix.os }}.zip
           # files: asdf-${{ matrix.os }}
 
       - name: Display structure of downloaded files
@@ -158,7 +158,7 @@ jobs:
           name: asdf-${{ matrix.os }}
           # include-hidden-files: true # so includes .next folder
           # path: website/.next/standalone
-          path: downloadedArtifacts/asdf-${{ matrix.os }}
+          path: downloadedArtifacts/asdf-${{ matrix.os }}.zip
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
@@ -166,7 +166,7 @@ jobs:
           name: asdf-${{ matrix.os }}.sig
           # include-hidden-files: true # so includes .next folder
           # path: website/.next/standalone
-          path: downloadedArtifacts/asdf-${{ matrix.os }}.sig
+          path: downloadedArtifacts/asdf-${{ matrix.os }}.zip.sig
 
       # - name: Upload Artifact
       #   uses: actions/upload-artifact@v4
