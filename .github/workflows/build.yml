@@ -1,6 +1,5 @@
 name: Website Artifact
-on:
-  workflow_call:
+on: workflow_dispatch
 
 jobs:
   build_website:
