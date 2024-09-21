@@ -137,7 +137,8 @@ jobs:
           name: asdf-${{ matrix.os }}
           path: downloadedArtifacts
 
-      - uses: 'FKLC/sign-files-action@v1.0.0'
+      # - uses: 'FKLC/sign-files-action@v1.0.0'
+      - uses: ./scripts/workflows/sign-files
         with:
           privateKey: ${{ secrets.PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
