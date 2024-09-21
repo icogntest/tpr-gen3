@@ -24,12 +24,6 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      # - uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '20.17.0'
-      # - name: Setup yarn
-      #   run: npm install -g yarn
-
       - uses: actions/setup-node@v4
         with:
           node-version: '20.17.0'
@@ -89,12 +83,12 @@ jobs:
           version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}.${{ vars.BUILD_NUMBER }}
 
       - run: |
-          echo "v${{ steps.semver.outputs.version }}"
-          echo "v${{ steps.semver.outputs.major }}"
-          echo "v${{ steps.semver.outputs.minor }}"
-          echo "v${{ steps.semver.outputs.patch }}"
-          echo "v${{ steps.semver.outputs.prerelease }}"
-          echo "v${{ steps.semver.outputs.build }}"
+          echo "${{ steps.semver.outputs.version }}"
+          echo "${{ steps.semver.outputs.major }}"
+          echo "${{ steps.semver.outputs.minor }}"
+          echo "${{ steps.semver.outputs.patch }}"
+          echo "${{ steps.semver.outputs.prerelease }}"
+          echo "${{ steps.semver.outputs.build }}"
 
       - run: |
           gh variable list
