@@ -35,6 +35,9 @@ jobs:
       - uses: qoomon/actions--context@v2
         id: context
 
+      - if: ${{ steps.context.outputs.environment == 'dev' }}
+        run: exit 1
+
       # - run: |
       #     echo "Current Environment: ${{ steps.context.outputs.environment }}"
       #     echo "Job Logs: ${{ steps.context.outputs.job_log_url }}"
@@ -47,9 +50,7 @@ jobs:
       - uses: matt-usurp/validate-semver@v2
         id: semver
         with:
-          # version: ${{ steps.package-version.outputs.current-version }}-
-          version: invalidsemver
-          # version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}
+          version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}.${{ vars.TESTREPOVAR }}
 
       - run: |
           echo "v${{ steps.semver.outputs.version }}"
