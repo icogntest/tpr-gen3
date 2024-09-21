@@ -132,21 +132,11 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R downloadedArtifacts
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: asdf-${{ matrix.os }}
-          include-hidden-files: true # so includes .next folder
-          path: website/.next/standalone
-
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: asdf-${{ matrix.os }}
-          path: downloadedArtifacts
-
-      - name: Display structure of downloaded files
-        run: ls -R downloadedArtifacts
+      # - name: Download Artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: asdf-${{ matrix.os }}
+      #     path: downloadedArtifacts
 
       # - uses: 'FKLC/sign-files-action@v1.0.0'
       - uses: ./scripts/workflows/sign-files
@@ -155,17 +145,36 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           algorithm: 'RSA-SHA256'
           extension: '.sig'
-          # outputFolder: 'downloadedArtifacts'
-          # files: downloadedArtifacts/asdf-${{ matrix.os }}
-          files: asdf-${{ matrix.os }}
+          outputFolder: 'downloadedArtifacts'
+          files: downloadedArtifacts/asdf-${{ matrix.os }}
+          # files: asdf-${{ matrix.os }}
+
+      - name: Display structure of downloaded files
+        run: ls -R downloadedArtifacts
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: asdf-${{ matrix.os }}
+          # include-hidden-files: true # so includes .next folder
+          # path: website/.next/standalone
+          path: downloadedArtifacts/asdf-${{ matrix.os }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: asdf-${{ matrix.os }}.sig
-          include-hidden-files: true # so includes .next folder
-          # path: downloadedArtifacts/asdf-${{ matrix.os }}.sig
-          path: asdf-${{ matrix.os }}.sig
+          # include-hidden-files: true # so includes .next folder
+          # path: website/.next/standalone
+          path: downloadedArtifacts/asdf-${{ matrix.os }}.sig
+
+      # - name: Upload Artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: asdf-${{ matrix.os }}.sig
+      #     include-hidden-files: true # so includes .next folder
+      #     # path: downloadedArtifacts/asdf-${{ matrix.os }}.sig
+      #     path: asdf-${{ matrix.os }}.sig
 
       # At the end, set/create var in environment for the "1.2.3" of this build.
       # Probably in another job since this one is a matrix.
