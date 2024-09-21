@@ -19,6 +19,9 @@ jobs:
     environment: ${{ vars.DEV_BRANCH_NAME }}
 
     steps:
+      - run: echo ${{ github.sha }}
+        name: Echo github.sha
+
       - uses: actions/checkout@v4
 
       # - uses: actions/setup-node@v4
