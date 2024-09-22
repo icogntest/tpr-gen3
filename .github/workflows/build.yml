@@ -153,6 +153,7 @@ jobs:
         run: ls -R downloadedArtifacts
 
       - name: Upload Artifact
+        id: upload-web-zip
         uses: actions/upload-artifact@v4
         with:
           name: asdf-${{ matrix.os }}
@@ -167,6 +168,8 @@ jobs:
           # include-hidden-files: true # so includes .next folder
           # path: website/.next/standalone
           path: downloadedArtifacts/asdf-${{ matrix.os }}.zip.sig
+
+      - run: echo ${{ steps.upload-web-zip.outputs.artifact-url }}
 
       # - name: Upload Artifact
       #   uses: actions/upload-artifact@v4
