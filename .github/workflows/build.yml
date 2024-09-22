@@ -179,6 +179,9 @@ jobs:
       # At the end, set/create var in environment for the "1.2.3" of this build.
       # Probably in another job since this one is a matrix.
   runs_reusable_workflow:
-    uses: icogn/tpr-gen3/.github/workflows/reusable.yml@main
-      with:
-        input_one: fish
+    needs: [build_website]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: icogn/tpr-gen3/.github/workflows/reusable.yml@main
+        with:
+          input_one: fish
