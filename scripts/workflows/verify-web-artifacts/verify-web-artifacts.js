@@ -1,3 +1,5 @@
+const core = require('@actions/core');
+
 const allowedWebBranches = input('allowedWebBranches', '');
 const artifactInfo = input('artifactInfo', '');
 
