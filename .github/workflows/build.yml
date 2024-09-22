@@ -202,6 +202,7 @@ jobs:
         id: read
         with:
           matrix-step-name: build
+      - run: echo ${{ steps.read.outputs.result }}
     outputs:
       result: '${{ steps.read.outputs.result }}'
 
