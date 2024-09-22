@@ -162,6 +162,7 @@ jobs:
           path: downloadedArtifacts/asdf-${{ matrix.os }}.zip
 
       - name: Upload Artifact
+        id: upload-web-zip-sig
         uses: actions/upload-artifact@v4
         with:
           name: asdf-${{ matrix.os }}.sig
@@ -170,6 +171,17 @@ jobs:
           path: downloadedArtifacts/asdf-${{ matrix.os }}.zip.sig
 
       - run: echo ${{ steps.upload-web-zip.outputs.artifact-url }}
+
+      ## Write for matrix outputs workaround
+      - uses: cloudposse/github-action-matrix-outputs-write@v1
+        id: out
+        with:
+          matrix-step-name: ${{ github.job }}
+          matrix-key: ${{ matrix.os }}
+          outputs: |-
+            web-zip-url: ${{ steps.upload-web-zip.outputs.artifact-url }}
+            ## Multiline string
+            web-zip-sig-url: ${{ steps.upload-web-zip.outputs.artifact-url }}
 
       # - name: Upload Artifact
       #   uses: actions/upload-artifact@v4
@@ -181,8 +193,20 @@ jobs:
 
       # At the end, set/create var in environment for the "1.2.3" of this build.
       # Probably in another job since this one is a matrix.
-  runs_reusable_workflow:
+  read_workflow:
     needs: [build_website]
+    runs-on: ubuntu-latest
+    steps:
+      ## Read matrix outputs
+      - uses: cloudposse/github-action-matrix-outputs-read@v1
+        id: read
+        with:
+          matrix-step-name: build
+    outputs:
+      result: '${{ steps.read.outputs.result }}'
+
+  runs_reusable_workflow:
+    needs: [read_workflow]
     uses: icogn/tpr-gen3/.github/workflows/reusable.yml@main
     with:
-      input_one: fish
+      input_one: ${{ needs.read_workflow.outputs.result }}
