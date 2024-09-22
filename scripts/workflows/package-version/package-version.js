@@ -4,9 +4,8 @@ const fs = require('node:fs');
 (async () => {
   console.log(`cwd:${process.cwd()}`);
   // process.cwd();
-  const fileList = fs.readdirSync('.');
-
-  console.log('Files and folders in the directory:', fileList);
+  const json = fs.readFileSync('.').toJSON();
+  console.log(json);
 
   // core.setOutput('value', version);
 })();
