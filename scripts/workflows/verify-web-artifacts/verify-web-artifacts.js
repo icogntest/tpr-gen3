@@ -7,7 +7,6 @@ console.log(`allowedWebBranches:${allowedWebBranches}`);
 
 const parsedArtifactInfo = JSON.parse(artifactInfo);
 console.log(parsedArtifactInfo);
-console.log(parsedArtifactInfo);
 
 function input(name, def) {
   let inp = core.getInput(name).trim();
