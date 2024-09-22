@@ -30,3 +30,4 @@ jobs:
       - uses: ./scripts/workflows/verify-web-artifacts
         with:
           allowedWebBranches: ${{ vars.ALLOWED_WEB_BRANCHES }}
+          artifactInfo: ${{ inputs.input_one }}
