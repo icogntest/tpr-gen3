@@ -1,0 +1,21 @@
+---
+name: 'Verify web artifacts'
+author: 'icogn'
+description: 'Action to verify web artifacts'
+
+branding:
+  icon: 'plus'
+  color: 'gray-dark'
+
+inputs:
+  allowedWebBranches:
+    description: Allowed web branches
+    required: true
+
+# outputs:
+#   value:
+#     description: The version
+
+runs:
+  using: node20
+  main: verify-web-artifacts.js

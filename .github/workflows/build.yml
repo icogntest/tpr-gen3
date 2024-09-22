@@ -98,11 +98,6 @@ jobs:
 
       - run: yarn --immutable
 
-      # - uses: martinbeentjes/npm-get-version-action@v1.3.1
-      #   id: package-version
-      #   name: Get root package.json version
-
-      # - run: node -e "process.stdout.write(require('./package').version)" >> $GITHUB_ENV
       - uses: ./scripts/workflows/package-version
         id: package-version
         name: Get root package.json version
