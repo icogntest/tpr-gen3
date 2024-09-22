@@ -1,5 +1,8 @@
-const { version } = require('./package.json');
+// const { version } = require('package.json');
 
 (async () => {
-  core.setOutput('value', version);
+  console.log(`cwd:${process.cwd()}`);
+  // process.cwd();
+
+  // core.setOutput('value', version);
 })();
