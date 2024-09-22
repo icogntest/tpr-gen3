@@ -4,7 +4,7 @@ const fs = require('node:fs');
 (async () => {
   console.log(`cwd:${process.cwd()}`);
   // process.cwd();
-  const fileList = fs.readdirSync(directoryPath);
+  const fileList = fs.readdirSync('.');
 
   console.log('Files and folders in the directory:', fileList);
 
