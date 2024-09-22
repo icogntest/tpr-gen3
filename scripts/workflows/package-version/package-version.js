@@ -4,7 +4,7 @@ const fs = require('node:fs');
 (async () => {
   console.log(`cwd:${process.cwd()}`);
   // process.cwd();
-  const json = fs.readFileSync('./package.json').toJSON();
+  const json = JSON.parse(fs.readFileSync('./package.json'));
   console.log(json);
 
   // core.setOutput('value', version);
