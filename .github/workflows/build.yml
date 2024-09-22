@@ -49,7 +49,11 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           environment: ${{ steps.context.outputs.environment }}
 
-      - uses: martinbeentjes/npm-get-version-action@v1.3.1
+      # - uses: martinbeentjes/npm-get-version-action@v1.3.1
+      #   id: package-version
+      #   name: Get root package.json version
+
+      - uses: ./scripts/workflows/package-version
         id: package-version
         name: Get root package.json version
 
@@ -101,6 +105,7 @@ jobs:
       # - run: node -e "process.stdout.write(require('./package').version)" >> $GITHUB_ENV
       - uses: ./scripts/workflows/package-version
         id: package-version
+        name: Get root package.json version
 
       - uses: matt-usurp/validate-semver@v2
         id: semver
