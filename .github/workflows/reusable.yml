@@ -1,0 +1,15 @@
+name: Reusable workflow
+
+on:
+  workflow_call:
+    inputs:
+      input_one:
+        required: true
+        type: string
+
+jobs:
+  do_thing:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.action_repository }}
+      - run: echo ${{ inputs.input_one }}

@@ -42,3 +42,10 @@ Next steps:
   For example, site URL, latest version, artifact URLs, possibly store the artifact signatures here as well.
   This would allow us to validate the zip file that we download to make sure what we end up downloading to their
   site matches what we expect.
+
+Next steps:
+
+- Centralized workflow which queues against itself if there are multiple.
+- Needs to verify the sender has permission to make the request.
+- Need to validate the input from the requester and update a file in a branch for the config
+  which is used by the menus.
