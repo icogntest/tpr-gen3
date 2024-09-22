@@ -201,10 +201,10 @@ jobs:
       - uses: cloudposse/github-action-matrix-outputs-read@v1
         id: read
         with:
-          matrix-step-name: build
+          matrix-step-name: build_website
       - run: echo ${{ steps.read.outputs.result }}
-    outputs:
-      result: '${{ steps.read.outputs.result }}'
+      outputs:
+        result: '${{ steps.read.outputs.result }}'
 
   runs_reusable_workflow:
     needs: [read_workflow]
