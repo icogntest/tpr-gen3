@@ -1,0 +1,16 @@
+---
+name: 'Package version'
+author: 'icogn'
+description: 'Action to provide the version from the root package.json.'
+
+branding:
+  icon: 'plus'
+  color: 'gray-dark'
+
+outputs:
+  value:
+    description: The version
+
+runs:
+  using: node20
+  main: package-version.js

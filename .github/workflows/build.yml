@@ -57,14 +57,14 @@ jobs:
         name: Check package.json version is valid
         id: regex-match-version
         with:
-          text: ${{ steps.package-version.outputs.current-version }}
+          text: ${{ steps.package-version.outputs.value }}
           regex: '^\d+\.\d+\.\d+$'
 
       - if: ${{ steps.regex-match-version.outputs.match == '' }}
         name: Exit if invalid package.json version
         run: exit 1
 
-      - run: echo ${{ steps.package-version.outputs.current-version }}
+      - run: echo ${{ steps.package-version.outputs.value }}
         name: Echo root package.json version
 
   build_website:
@@ -94,14 +94,18 @@ jobs:
 
       - run: yarn --immutable
 
-      - uses: martinbeentjes/npm-get-version-action@v1.3.1
+      # - uses: martinbeentjes/npm-get-version-action@v1.3.1
+      #   id: package-version
+      #   name: Get root package.json version
+
+      # - run: node -e "process.stdout.write(require('./package').version)" >> $GITHUB_ENV
+      - uses: ./scripts/workflows/package-version
         id: package-version
-        name: Get root package.json version
 
       - uses: matt-usurp/validate-semver@v2
         id: semver
         with:
-          version: ${{ steps.package-version.outputs.current-version }}-${{ steps.context.outputs.environment }}.${{ vars.BUILD_NUMBER }}
+          version: ${{ steps.package-version.outputs.value }}-${{ steps.context.outputs.environment }}.${{ vars.BUILD_NUMBER }}
 
       - run: |
           echo "${{ steps.semver.outputs.version }}"
