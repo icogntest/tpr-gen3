@@ -15,3 +15,5 @@ jobs:
       - run: echo ${{ inputs.input_one }}
 
       - uses: ./scripts/workflows/verify-web-artifacts
+        with:
+          allowedWebBranches: ${{ vars.ALLOWED_WEB_BRANCHES }}
